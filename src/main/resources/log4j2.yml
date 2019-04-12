@@ -1,0 +1,21 @@
+Configuration:
+  status: info
+  name: coinfeed
+  appenders:
+    Console:
+      name: STDOUT
+      PatternLayout:
+        Pattern: "[%d{DEFAULT}{GMT+0}] %p: %m (%c:%L)%n"
+
+  Loggers:
+    logger:
+      - name: coinfeed
+        level: debug
+        additivity: false
+        AppenderRef:
+          ref: STDOUT
+
+    Root:
+      level: error
+      AppenderRef:
+        ref: STDOUT
