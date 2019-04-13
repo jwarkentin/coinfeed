@@ -44,7 +44,7 @@ dependencies {
   implementation("org.apache.logging.log4j:log4j-api")
   implementation("org.apache.logging.log4j:log4j-core")
   implementation("org.apache.logging.log4j:log4j-jul")
-  implementation("org.apache.logging.log4j:log4j-slf4j-impl")
+  // implementation("org.apache.logging.log4j:log4j-slf4j-impl")
 
   // Needed for log4j2 YAML configuration files
   implementation("com.fasterxml.jackson.core:jackson-core")
@@ -101,6 +101,14 @@ dependencyManagement {
 /**
  * TASKS
  */
+
+tasks.test {
+  testLogging {
+    showStandardStreams = true
+  }
+
+  // useJUnit()
+}
 
 tasks.wrapper {
   distributionType = Wrapper.DistributionType.ALL
