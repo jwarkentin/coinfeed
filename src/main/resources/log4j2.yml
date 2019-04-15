@@ -3,14 +3,19 @@ Configuration:
   name: coinfeed
   appenders:
     Console:
-      name: STDOUT
-      PatternLayout:
-        Pattern: "[%d{DEFAULT}{GMT+0}] %p: %m (%c:%L)%n"
+      - name: STDOUT
+        PatternLayout:
+          Pattern: "[%d{DEFAULT}{GMT+0}] %highlight{%p}{FATAL=red bold, ERROR=red bold, WARN=yellow bold, INFO=blue, DEBUG=magenta}} %m%ex{short.message} (%c:%L)%n"
 
   Loggers:
     logger:
       - name: coinfeed
         level: debug
+        additivity: false
+        AppenderRef:
+          ref: STDOUT
+      - name: org.reflections
+        level: error
         additivity: false
         AppenderRef:
           ref: STDOUT

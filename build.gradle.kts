@@ -44,7 +44,12 @@ dependencies {
   implementation("org.apache.logging.log4j:log4j-api")
   implementation("org.apache.logging.log4j:log4j-core")
   implementation("org.apache.logging.log4j:log4j-jul")
-  // implementation("org.apache.logging.log4j:log4j-slf4j-impl")
+  implementation("org.apache.logging.log4j:log4j-slf4j-impl")
+
+  // Testing
+  // testImplementation("io.kotlintest:kotlintest-runner-junit5")
+  testImplementation("org.jetbrains.kotlin:kotlin-test")
+  testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 
   // Needed for log4j2 YAML configuration files
   implementation("com.fasterxml.jackson.core:jackson-core")
@@ -60,12 +65,16 @@ dependencies {
     exclude(module = "kafka_2.11")
   }
   testImplementation("io.confluent:kafka-schema-registry")
-  // testImplementation("io.confluent:kafka-connect-avro-converter")
+  testImplementation("io.confluent:kafka-connect-avro-converter")
 
   // Kotlin
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-  testImplementation("org.jetbrains.kotlin:kotlin-test")
-  testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+
+  // App
+  // implementation("org.yaml:snakeyaml")
+
+  // Coinbase connector
+  implementation("com.github.dubasdey:coinbase-pro-client")
 }
 
 dependencyManagement {
@@ -84,7 +93,10 @@ dependencyManagement {
     dependency("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.jackson}")
     dependency("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.jackson}")
 
+    dependency("com.github.dubasdey:coinbase-pro-client:${Versions.cbpClient}")
     dependency("info.batey.kafka:kafka-unit:${Versions.kafkaUnit}")
+
+    // dependency("io.kotlintest:kotlintest-runner-junit5:${Versions.kotlinTest}")
 
     dependencySet("org.apache.kafka:${Versions.kafka}") {
       entry("connect-api")
@@ -92,8 +104,16 @@ dependencyManagement {
       entry("connect-runtime")
     }
 
+    dependencySet("org.jetbrains.kotlin:${Versions.kotlin}") {
+      entry("kotlin-test")
+      entry("kotlin-test-junit")
+    }
+
+    // dependency("org.yaml:snakeyaml:${Versions.snakeYaml}")
+
     dependencySet("io.confluent:${Versions.confluent}") {
       entry("kafka-schema-registry")
+      entry("kafka-connect-avro-converter")
     }
   }
 }
@@ -103,6 +123,8 @@ dependencyManagement {
  */
 
 tasks.test {
+  // useJUnitPlatform()
+
   testLogging {
     showStandardStreams = true
   }

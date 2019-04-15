@@ -40,7 +40,10 @@ class KafkaConnectUnit {
     lateinit var connect: Connect
 
     constructor(kafkaInstance: KafkaUnit? = null, workerCfg: Map<String, String> = mapOf(), registryCfg: Map<String, String> = mapOf()) {
-        val registryConfig = HashMap<String, String>()
+        val registryConfig = mutableMapOf(
+            "host.name" to "localhost"
+        )
+
         if (kafkaInstance != null) {
             kafkaInst = kafkaInstance
             workerConfig["bootstrap.servers"] = "localhost:${kafkaInstance.getBrokerPort()}"
@@ -67,11 +70,9 @@ class KafkaConnectUnit {
         workerCfg.forEach { workerConfig[it.key] = it.value }
     }
 
-    fun getEphemeralPort(): Int {
-        val socket = ServerSocket(0)
-        socket.setReuseAddress(true)
-        return socket.getLocalPort()
-    }
+    fun getEphemeralPort() = ServerSocket(0).apply {
+        reuseAddress = true
+    }.localPort
 
     fun start() {
         if (started) return
@@ -122,19 +123,24 @@ class KafkaConnectUnit {
         logger.debug("Creating connector '${cName}'")
 
         var success = false
-        herder.putConnectorConfig(
-            cName,
-            connectorConfig,
-            false,
-            Callback<ConnectorResult> { error, result ->
-                if (error != null) {
-                    logger.error("Failed creating connector '${cName}'", error)
-                } else {
-                    connectorInfo = result.result()
-                    success = true
+        try {
+            herder.putConnectorConfig(
+                cName,
+                connectorConfig,
+                false,
+                Callback<ConnectorResult> { error, result ->
+                    if (error != null) {
+                        logger.error("Failed creating connector '${cName}'", error)
+                    } else {
+                        connectorInfo = result.result()
+                        success = true
+                    }
                 }
-            }
-        )
+            )
+        } catch(e: org.apache.kafka.connect.runtime.rest.errors.BadRequestException) {
+            logger.error(e.message)
+            throw e
+        }
 
         logger.debug("Created connector '${cName}'")
         return success
