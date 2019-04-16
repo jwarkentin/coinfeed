@@ -3,11 +3,10 @@ package coinfeed.utils
 import org.apache.kafka.clients.admin.AdminClient
 import org.apache.kafka.clients.admin.AdminClientConfig
 import org.apache.kafka.clients.admin.ListTopicsOptions
-import org.apache.kafka.clients.admin.ListTopicsResult
 import org.apache.kafka.clients.admin.NewTopic
 
 class KafkaAdminOps(bootstrapServers: String) {
-  public val adminClient = AdminClient.create(mapOf(
+  val adminClient = AdminClient.create(mapOf(
     AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers
   ))
 

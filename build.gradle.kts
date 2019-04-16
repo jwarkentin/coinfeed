@@ -5,6 +5,7 @@
 plugins {
   kotlin("jvm") version Versions.kotlin
   application
+  idea
   id("io.spring.dependency-management") version Versions.dependencyManagement
 }
 

@@ -9,14 +9,12 @@ import kotlin.test.Test
 
 class CoinbaseSourceTest : TestBase() {
   // fun readConfig(): Map<String, Any?> = Yaml().load(this.javaClass.getResourceAsStream("/config.yml"))
-  fun readConfig(): ObjectNode = ObjectMapper(YAMLFactory()).readTree(
+  private fun readConfig(): JsonNode? = ObjectMapper(YAMLFactory()).readTree(
     this.javaClass.getResourceAsStream("/config.yml")
-  ) as ObjectNode
+  )
 
   @Test fun testThing() {
-    val config = readConfig()
-    // logger.info(config::class.java)
-    // logger.info(config["coinbase"]["auth"]["apiKey"])
+    val config = readConfig()!!
 
     val kafka = getKafka()
     kafka.startup()
@@ -25,8 +23,9 @@ class CoinbaseSourceTest : TestBase() {
       "name" to "coinbase-feed",
       "bootstrap.servers" to connect.workerConfig["bootstrap.servers"]!!,
       "connector.class" to "coinfeed.connectors.CoinbaseSourceConnector",
-      "cbproapi.auth.apiKey" to config["coinbase"]["auth"]["apiKey"].toString(),
-      "cbproapi.auth.apiSecret" to config["coinbase"]["auth"]["apiSecret"].toString()
+      "cbproapi.auth.apiKey" to config["coinbase"]["auth"]["apiKey"].textValue(),
+      "cbproapi.auth.apiSecret" to config["coinbase"]["auth"]["apiSecret"].textValue(),
+      "cbproapi.auth.passphrase" to config["coinbase"]["auth"]["passphrase"].textValue()
     ))
   }
 }

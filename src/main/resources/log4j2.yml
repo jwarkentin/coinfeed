@@ -5,7 +5,7 @@ Configuration:
     Console:
       - name: STDOUT
         PatternLayout:
-          Pattern: "[%d{DEFAULT}{GMT+0}] %highlight{%p}{FATAL=red bold, ERROR=red bold, WARN=yellow bold, INFO=blue, DEBUG=magenta}} %m%ex{short.message} (%c:%L)%n"
+          Pattern: "[%d{DEFAULT}{GMT+0}] %highlight{%p}{FATAL=red bold, ERROR=red bold, WARN=yellow bold, INFO=blue, DEBUG=magenta} %m%ex{short.message} (%c:%L)%n"
 
   Loggers:
     logger:
