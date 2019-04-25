@@ -4,6 +4,7 @@
 
 plugins {
   kotlin("jvm") version Versions.kotlin
+  kotlin("kapt") version Versions.kotlin
   application
   idea
   id("io.spring.dependency-management") version Versions.dependencyManagement
@@ -23,9 +24,8 @@ repositories {
   mavenLocal()
   gradlePluginPortal()    // See https://github.com/gradle/gradle/issues/4020#issuecomment-357489131
   jcenter()
-  maven {
-    url = uri("http://packages.confluent.io/maven/")
-  }
+  maven { url = uri("http://packages.confluent.io/maven/") }
+  maven { url = uri("https://jitpack.io") }
 }
 
 application {
@@ -71,11 +71,15 @@ dependencies {
   // Kotlin
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-  // App
-  // implementation("org.yaml:snakeyaml")
-
   // Coinbase connector
   implementation("com.github.dubasdey:coinbase-pro-client")
+  implementation("com.github.tinder.scarlet:scarlet")
+  implementation("com.github.tinder.scarlet:scarlet-stream-adapter-coroutines")
+  implementation("com.github.tinder.scarlet:scarlet-message-adapter-moshi")
+  implementation("com.github.tinder.scarlet:scarlet-websocket-okhttp")
+
+  implementation("com.squareup.moshi:moshi-kotlin")
+  kapt("com.squareup.moshi:moshi-kotlin-codegen")
 }
 
 dependencyManagement {
@@ -95,6 +99,19 @@ dependencyManagement {
     dependency("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.jackson}")
 
     dependency("com.github.dubasdey:coinbase-pro-client:${Versions.cbpClient}")
+
+    dependencySet("com.github.tinder.scarlet:${Versions.scarlet}") {
+      entry("scarlet")
+      entry("scarlet-message-adapter-moshi")
+      entry("scarlet-stream-adapter-coroutines")
+      entry("scarlet-websocket-okhttp")
+    }
+
+    dependencySet("com.squareup.moshi:${Versions.moshi}") {
+      entry("moshi-kotlin")
+      entry("moshi-kotlin-codegen")
+    }
+
     dependency("info.batey.kafka:kafka-unit:${Versions.kafkaUnit}")
 
     // dependency("io.kotlintest:kotlintest-runner-junit5:${Versions.kotlinTest}")

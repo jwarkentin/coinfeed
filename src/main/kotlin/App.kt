@@ -1,6 +1,6 @@
 package coinfeed
 
-import coinfeed.connectors.CoinbaseSourceConnector
+import coinfeed.connectors.coinbase.CoinbaseSourceConnector
 
 fun main(args: Array<String>) {
   CoinbaseSourceConnector()

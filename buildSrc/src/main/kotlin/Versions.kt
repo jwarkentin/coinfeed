@@ -11,6 +11,7 @@ object Versions {
   const val kafkaUnit = "1.0"
   // const val kotlinTest = "3.3+"
   const val log4j = "2.11.2"
+  const val moshi = "1.8.0"
   const val scala = "2.12"
-  const val snakeYaml = "1.24"
+  const val scarlet = "0.1+"
 }

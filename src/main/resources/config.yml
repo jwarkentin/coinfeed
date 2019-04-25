@@ -1,0 +1,8 @@
+coinbase:
+  auth:
+    apiKey: Your Key Here
+    apiSecret: Your Secret Here
+    passphrase: Your Passphrase Here
+createMissingTopics: true
+topics:
+  match: matches
