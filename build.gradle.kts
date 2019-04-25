@@ -60,13 +60,15 @@ dependencies {
 
   // Kafka
   implementation("org.apache.kafka:connect-api")
+  implementation("org.apache.kafka:connect-runtime")
+  implementation("org.apache.kafka:kafka-streams")
+  implementation("io.confluent:kafka-connect-avro-converter")
+  implementation("io.confluent:kafka-streams-avro-serde")
   testImplementation("org.apache.kafka:kafka_${Versions.scala}")
-  testImplementation("org.apache.kafka:connect-runtime")
   testImplementation("info.batey.kafka:kafka-unit") {
     exclude(module = "kafka_2.11")
   }
   testImplementation("io.confluent:kafka-schema-registry")
-  testImplementation("io.confluent:kafka-connect-avro-converter")
 
   // Kotlin
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -118,8 +120,9 @@ dependencyManagement {
 
     dependencySet("org.apache.kafka:${Versions.kafka}") {
       entry("connect-api")
-      entry("kafka_${Versions.scala}")
       entry("connect-runtime")
+      entry("kafka_${Versions.scala}")
+      entry("kafka-streams")
     }
 
     dependencySet("org.jetbrains.kotlin:${Versions.kotlin}") {
@@ -132,6 +135,7 @@ dependencyManagement {
     dependencySet("io.confluent:${Versions.confluent}") {
       entry("kafka-schema-registry")
       entry("kafka-connect-avro-converter")
+      entry("kafka-streams-avro-serde")
     }
   }
 }

@@ -25,7 +25,6 @@ import org.apache.kafka.connect.source.SourceRecord
 import org.apache.kafka.connect.source.SourceTask
 import java.time.OffsetDateTime
 import java.util.concurrent.TimeUnit
-import kotlin.reflect.full.memberProperties
 
 class CoinbaseSourceTask : SourceTask() {
   private enum class TaskState {
